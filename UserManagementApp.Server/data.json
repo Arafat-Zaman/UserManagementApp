@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "firstName": "Shibli",
+    "lastName": "Arafat",
+    "active": true,
+    "company": "SoftwarePeople",
+    "sex": "M",
+    "contact": {
+      "id": 1,
+      "phone": "+41023658",
+      "address": "Banani",
+      "city": "Dhaka",
+      "country": "Bangladesh"
+    },
+    "role": {
+      "id": 5,
+      "name": "manager"
+    }
+  }
+]
