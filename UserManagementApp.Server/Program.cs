@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using UserManagementApp.Server.Data.Repository;
 using UserManagementApp.Server.Data;
@@ -12,14 +11,12 @@ namespace UserManagementApp.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
+            // Add services to the container
             builder.Services.AddControllers();
-            
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Add CORS policy to allow the Angular app
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAngularApp", builder =>
@@ -28,33 +25,38 @@ namespace UserManagementApp.Server
                 });
             });
 
-          
+            // Default to appsettings.json value for DataSource
+            string defaultDataSource = builder.Configuration["DataSource"] ?? "SQL";
 
+            // Add a singleton to hold the selected data source
+            builder.Services.AddSingleton<DataSourceProvider>(new DataSourceProvider(defaultDataSource));
 
+            // Register services based on DataSourceProvider
+            builder.Services.AddScoped<IDataProvider>(serviceProvider =>
+            {
+                var dataSourceProvider = serviceProvider.GetRequiredService<DataSourceProvider>();
+                return dataSourceProvider.DataSource switch
+                {
+                    "SQL" => new SQLDataProvider(serviceProvider.GetRequiredService<SQLContext>()),
+                    "JSON" => new JSONDataProvider(),
+                    _ => throw new Exception("Invalid data source")
+                };
+            });
+
+            // Add DbContext
             builder.Services.AddDbContext<SQLContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-            var dataSource = builder.Configuration["DataSource"];
-            if (dataSource == "SQL")
-            {
-                builder.Services.AddScoped<IDataProvider, SQLDataProvider>(); // Placeholder for SQL implementation
-            }
-            else if (dataSource == "JSON")
-            {
-                builder.Services.AddScoped<IDataProvider, JSONDataProvider>();
-            }
 
             // Register repository and service layers
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
-
 
             var app = builder.Build();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -65,14 +67,31 @@ namespace UserManagementApp.Server
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseRouting();
 
+            app.UseAuthorization();
 
             app.MapControllers();
 
             app.MapFallbackToFile("/index.html");
 
             app.Run();
+        }
+    }
+
+    // DataSourceProvider to manage the selected data source
+    public class DataSourceProvider
+    {
+        public string DataSource { get; private set; }
+
+        public DataSourceProvider(string defaultDataSource)
+        {
+            DataSource = defaultDataSource;
+        }
+
+        public void SetDataSource(string dataSource)
+        {
+            DataSource = dataSource;
         }
     }
 }

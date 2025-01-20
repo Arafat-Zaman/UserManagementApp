@@ -1,3 +1,13 @@
 <header>
   <h1>{{ title }}</h1>
+  <label for="dataSource">Select Data Source:</label>
+  <select id="dataSource" [(ngModel)]="selectedSource" (change)="onDataSourceChange()">
+    <option value="JSON">JSON</option>
+    <option value="SQL">SQL</option>
+  </select>
 </header>
+
+<div *ngIf="data">
+  <h3>Data from {{ selectedSource }} Source</h3>
+  <pre>{{ data | json }}</pre>
+</div>
