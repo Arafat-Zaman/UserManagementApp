@@ -11,37 +11,41 @@ import { HttpClient } from '@angular/common/http';
 export class HeaderComponent implements OnInit {
   title = 'User Management App';
   selectedSource = 'JSON'; // Default selection
-  apiUrl = 'https://localhost:7038/api/datasource'; // Backend API URL
+  data: any[] = []; // Store the fetched data
+  apiUrl = 'https://localhost:7038/api';
 
   constructor(private http: HttpClient) { }
 
-  // Lifecycle hook to fetch the current data source on component initialization
+  // Lifecycle hook to load data from the current data source
   ngOnInit(): void {
-    this.fetchCurrentDataSource();
+    this.loadData();
   }
 
-  // Fetch the current data source from the server
-  fetchCurrentDataSource(): void {
-    this.http.get<{ currentDataSource: string }>(this.apiUrl).subscribe({
-      next: (response) => {
-        this.selectedSource = response.currentDataSource;
-        console.log(`Fetched current data source: ${this.selectedSource}`);
-      },
-      error: (err) => console.error('Error fetching current data source:', err),
-    });
-  }
-
-  // Update the data source on the server
+  // Update the data source on the server and reload data
   onDataSourceChange(): void {
-    const body = JSON.stringify(this.selectedSource); // Send data as JSON
-    const headers = { 'Content-Type': 'application/json' }; // Set the Content-Type header
+    const body = JSON.stringify(this.selectedSource);
+    const headers = { 'Content-Type': 'application/json' };
 
-    this.http.post(this.apiUrl, body, { headers, responseType: 'text' }).subscribe({
-      next: () => console.log(`Data source updated to ${this.selectedSource}`),
+    // Update the data source on the server
+    this.http.post(`${this.apiUrl}/datasource`, body, { headers }).subscribe({
+      next: () => {
+        console.log(`Data source updated to ${this.selectedSource}`);
+        this.loadData(); // Reload data after updating the source
+      },
       error: (err) => console.error('Error updating data source:', err),
     });
   }
 
+  // Fetch data from the selected data source
+  loadData(): void {
+    this.http.get<any[]>(`${this.apiUrl}/users`).subscribe({
+      next: (response) => {
+        this.data = response;
+        console.log('Fetched data:', this.data);
+      },
+      error: (err) => console.error('Error fetching data:', err),
+    });
+  }
 }
 
 

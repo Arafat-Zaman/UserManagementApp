@@ -24,6 +24,19 @@
 </header>
 
 <p>Currently selected data source: <strong>{{ selectedSource }}</strong></p>-->
+<!--<header>
+  <h1>{{ title }}</h1>
+  <label for="dataSource">Select Data Source:</label>
+  <select id="dataSource"
+          [(ngModel)]="selectedSource"
+          (change)="onDataSourceChange()"
+          aria-label="Select Data Source">
+    <option value="JSON">JSON</option>
+    <option value="SQL">SQL</option>
+  </select>
+</header>
+
+<p>Currently selected data source: <strong>{{ selectedSource }}</strong></p>-->
 
 
 <header>
@@ -38,5 +51,16 @@
   </select>
 </header>
 
-<p>Currently selected data source: <strong>{{ selectedSource }}</strong></p>
+<div *ngIf="data && data.length > 0; else noData">
+  <h3>Data from {{ selectedSource }} Source</h3>
+  <ul>
+    <li *ngFor="let user of data">
+      {{ user.firstName }} {{ user.lastName }} - {{ user.company }}
+    </li>
+  </ul>
+</div>
+
+<ng-template #noData>
+  <h3>No data available from {{ selectedSource }} Source</h3>
+</ng-template>
 
