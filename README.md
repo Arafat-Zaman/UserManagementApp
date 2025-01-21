@@ -1,6 +1,6 @@
 
 
-**README.md** file for your project, covering both the backend (`UserManagementApp.Server`) and frontend (`UserManagementApp.Client`):
+**README.md** file for UserManagementApp project, covering both the backend (`UserManagementApp.Server`) and frontend (`UserManagementApp.Client`):
 
 ---
 
