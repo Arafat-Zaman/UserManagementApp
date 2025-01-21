@@ -18,6 +18,18 @@ public class DataSourceController : ControllerBase
         return Ok(new { CurrentDataSource = _dataSourceProvider.DataSource });
     }
 
+    //[HttpPost]
+    //public IActionResult UpdateDataSource([FromBody] string newDataSource)
+    //{
+    //    if (string.IsNullOrEmpty(newDataSource) || (newDataSource != "SQL" && newDataSource != "JSON"))
+    //    {
+    //        return BadRequest("Invalid data source. Must be 'SQL' or 'JSON'.");
+    //    }
+
+    //    _dataSourceProvider.SetDataSource(newDataSource);
+    //    return Ok(new { Message = $"Data source updated to {newDataSource}" });
+    //}
+
     [HttpPost]
     public IActionResult UpdateDataSource([FromBody] string newDataSource)
     {
@@ -29,4 +41,5 @@ public class DataSourceController : ControllerBase
         _dataSourceProvider.SetDataSource(newDataSource);
         return Ok(new { Message = $"Data source updated to {newDataSource}" });
     }
+
 }

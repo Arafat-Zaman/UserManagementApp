@@ -1,4 +1,4 @@
-<header>
+<!--<header>
   <h1>{{ title }}</h1>
   <label for="dataSource">Select Data Source:</label>
   <select id="dataSource" [(ngModel)]="selectedSource" (change)="onDataSourceChange()">
@@ -10,4 +10,33 @@
 <div *ngIf="data">
   <h3>Data from {{ selectedSource }} Source</h3>
   <pre>{{ data | json }}</pre>
-</div>
+</div>-->
+<!--<header>
+  <h1>{{ title }}</h1>
+  <label for="dataSource">Select Data Source:</label>
+  <select id="dataSource"
+          [(ngModel)]="selectedSource"
+          (change)="onDataSourceChange()"
+          aria-label="Select Data Source">
+    <option value="JSON">JSON</option>
+    <option value="SQL">SQL</option>
+  </select>
+</header>
+
+<p>Currently selected data source: <strong>{{ selectedSource }}</strong></p>-->
+
+
+<header>
+  <h1>{{ title }}</h1>
+  <label for="dataSource">Select Data Source:</label>
+  <select id="dataSource"
+          [(ngModel)]="selectedSource"
+          (change)="onDataSourceChange()"
+          aria-label="Select Data Source">
+    <option value="JSON">JSON</option>
+    <option value="SQL">SQL</option>
+  </select>
+</header>
+
+<p>Currently selected data source: <strong>{{ selectedSource }}</strong></p>
+
