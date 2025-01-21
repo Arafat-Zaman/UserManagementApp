@@ -10,6 +10,7 @@ import { User } from '../../models/user.model';
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
+  selectedSource: string = 'JSON'; // Default data source
 
   constructor(private userService: UserService) { }
 
@@ -17,15 +18,28 @@ export class UserListComponent implements OnInit {
     this.loadUsers();
   }
 
+  // Load users based on the selected data source
   loadUsers(): void {
-    this.userService.getUsers().subscribe((data) => {
-      this.users = data;
+    this.userService.getUsers().subscribe({
+      next: (data) => (this.users = data),
+      error: (err) => console.error('Error loading users:', err),
     });
   }
 
+  // Update the data source and refresh the user list
+  onDataSourceChange(source: string): void {
+    this.selectedSource = source;
+    this.userService.updateDataSource(source).subscribe({
+      next: () => this.loadUsers(),
+      error: (err) => console.error('Error updating data source:', err),
+    });
+  }
+
+  // Delete a user and refresh the list
   deleteUser(id: number): void {
-    this.userService.deleteUser(id).subscribe(() => {
-      this.loadUsers();
+    this.userService.deleteUser(id).subscribe({
+      next: () => this.loadUsers(),
+      error: (err) => console.error('Error deleting user:', err),
     });
   }
 }

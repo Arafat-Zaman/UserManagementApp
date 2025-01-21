@@ -41,17 +41,17 @@
 
 <header>
   <h1>{{ title }}</h1>
-  <label for="dataSource">Select Data Source:</label>
+  <!--<label for="dataSource">Select Data Source:</label>
   <select id="dataSource"
           [(ngModel)]="selectedSource"
           (change)="onDataSourceChange()"
           aria-label="Select Data Source">
     <option value="JSON">JSON</option>
     <option value="SQL">SQL</option>
-  </select>
+  </select>-->
 </header>
 
-<div *ngIf="data && data.length > 0; else noData">
+<!--<div *ngIf="data && data.length > 0; else noData">
   <h3>Data from {{ selectedSource }} Source</h3>
   <ul>
     <li *ngFor="let user of data">
@@ -62,5 +62,5 @@
 
 <ng-template #noData>
   <h3>No data available from {{ selectedSource }} Source</h3>
-</ng-template>
+</ng-template>-->
 
