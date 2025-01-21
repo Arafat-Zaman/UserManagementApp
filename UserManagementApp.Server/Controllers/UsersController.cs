@@ -46,5 +46,18 @@ namespace UserManagementApp.Server.Controllers
             _userService.DeleteUser(id);
             return NoContent();
         }
+
+        [HttpGet("search")]
+        public IActionResult SearchUsers([FromQuery] string query)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return BadRequest("Query parameter is required.");
+            }
+
+            var users = _userService.SearchUsers(query);
+            return Ok(users);
+        }
+
     }
 }

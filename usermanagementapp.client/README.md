@@ -182,6 +182,7 @@ Update the `appsettings.json` file to configure the database connection and data
    - **View Details:** Navigate to a user's details page.
    - **Update User:** Edit an existing user's details.
    - **Delete User:** Remove a user from the selected data source.
+   - **Search User:** Search a user from the selected data source.
 
 ---
 

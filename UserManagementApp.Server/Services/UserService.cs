@@ -21,5 +21,19 @@ namespace UserManagementApp.Server.Services
         public void UpdateUser(User user) => _repository.UpdateUser(user);
 
         public void DeleteUser(int id) => _repository.DeleteUser(id);
+
+        public IEnumerable<User> SearchUsers(string query)
+        {
+            query = query.ToLower();
+
+            // Search in the repository
+            return _repository.GetUsers()
+                .Where(u =>
+                    u.FirstName.ToLower().Contains(query) ||
+                    u.LastName.ToLower().Contains(query) ||
+                    u.Company.ToLower().Contains(query) ||
+                    u.Role.Name.ToLower().Contains(query));
+        }
+
     }
 }

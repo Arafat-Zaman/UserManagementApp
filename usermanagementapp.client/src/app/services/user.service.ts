@@ -43,4 +43,10 @@ export class UserService {
       headers: { 'Content-Type': 'application/json' },
     });
   }
+
+  // Search users by query
+  searchUsers(query: string): Observable<User[]> {
+    const url = `${this.baseUrl}/search?query=${encodeURIComponent(query)}`;
+    return this.http.get<User[]>(url);
+  }
 }

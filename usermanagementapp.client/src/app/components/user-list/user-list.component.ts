@@ -11,6 +11,7 @@ import { User } from '../../models/user.model';
 export class UserListComponent implements OnInit {
   users: User[] = [];
   selectedSource: string = 'SQL'; // Default data source
+  searchQuery: string = ''; // Bind to the search input
 
   constructor(private userService: UserService) { }
 
@@ -32,6 +33,20 @@ export class UserListComponent implements OnInit {
     this.userService.updateDataSource(source).subscribe({
       next: () => this.loadUsers(),
       error: (err) => console.error('Error updating data source:', err),
+    });
+  }
+
+  // Perform a search
+  searchUsers(): void {
+    if (!this.searchQuery.trim()) {
+      // If the search query is empty, reload all users
+      this.loadUsers();
+      return;
+    }
+
+    this.userService.searchUsers(this.searchQuery).subscribe({
+      next: (data) => (this.users = data),
+      error: (err) => console.error('Error searching users:', err),
     });
   }
 

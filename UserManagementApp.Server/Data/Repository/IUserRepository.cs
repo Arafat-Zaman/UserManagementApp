@@ -9,5 +9,7 @@ namespace UserManagementApp.Server.Data.Repository
         void AddUser(User user);
         void UpdateUser(User user);
         void DeleteUser(int id);
+
+        IEnumerable<User> SearchUsers(string query);
     }
 }
