@@ -10,7 +10,7 @@ import { User } from '../../models/user.model';
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
-  selectedSource: string = 'JSON'; // Default data source
+  selectedSource: string = 'SQL'; // Default data source
 
   constructor(private userService: UserService) { }
 

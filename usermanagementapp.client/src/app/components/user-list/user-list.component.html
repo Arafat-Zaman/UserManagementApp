@@ -2,8 +2,9 @@
   <h1>User List</h1>
   <label for="dataSource">Select Data Source:</label>
   <select id="dataSource" [(ngModel)]="selectedSource" (change)="onDataSourceChange(selectedSource)">
-    <option value="JSON">JSON</option>
     <option value="SQL">SQL</option>
+    <option value="JSON">JSON</option>
+
   </select>
 </header>
 
@@ -22,8 +23,12 @@
       <td>{{ user.lastName }}</td>
       <td>{{ user.company }}</td>
       <td>
+
+        <a [routerLink]="['/users', user.id]" style="margin-right: 40px;">View</a>
+
         <button (click)="deleteUser(user.id)">Delete</button>
-        <a [routerLink]="['/users', user.id]">View</a>
+
+
       </td>
     </tr>
   </tbody>

@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class HeaderComponent implements OnInit {
   title = 'User Management App';
-  selectedSource = 'JSON'; // Default selection
+  selectedSource = 'SQL'; // Default selection
   data: any[] = []; // Store the fetched data
   apiUrl = 'https://localhost:7038/api';
 
