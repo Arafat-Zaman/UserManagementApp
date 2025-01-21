@@ -1,8 +1,55 @@
 <div *ngIf="user">
-  <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-  <p>Company: {{ user.company }}</p>
-  <p>Active: {{ user.active }}</p>
-  <p>Role: {{ user.role.name }}</p>
-  <p>Contact: {{ user.contact.phone }}, {{ user.contact.city }}</p>
-  <button (click)="goBack()">Back</button>
+  <h2>
+    <span *ngIf="!isEditing">{{ user.firstName }} {{ user.lastName }}</span>
+    <input *ngIf="isEditing"
+           [(ngModel)]="user.firstName"
+           placeholder="First Name" />
+    <input *ngIf="isEditing"
+           [(ngModel)]="user.lastName"
+           placeholder="Last Name" />
+  </h2>
+
+  <p>
+    Company:
+    <span *ngIf="!isEditing">{{ user.company }}</span>
+    <input *ngIf="isEditing"
+           [(ngModel)]="user.company"
+           placeholder="Company" />
+  </p>
+
+  <p>
+    Active:
+    <span *ngIf="!isEditing">{{ user.active }}</span>
+    <select *ngIf="isEditing" [(ngModel)]="user.active">
+      <option [value]="true">Yes</option>
+      <option [value]="false">No</option>
+    </select>
+  </p>
+
+  <p>
+    Role:
+    <span *ngIf="!isEditing">{{ user.role.name }}</span>
+    <input *ngIf="isEditing"
+           [(ngModel)]="user.role.name"
+           placeholder="Role" />
+  </p>
+
+  <p>
+    Contact:
+    <span *ngIf="!isEditing">{{ user.contact.phone }}, {{ user.contact.city }}</span>
+    <input *ngIf="isEditing"
+           [(ngModel)]="user.contact.phone"
+           placeholder="Phone" />
+    <input *ngIf="isEditing"
+           [(ngModel)]="user.contact.city"
+           placeholder="City" />
+  </p>
+
+  <!-- Action buttons -->
+  <div>
+    <button *ngIf="!isEditing" (click)="enableEdit()">Edit</button>
+    <button *ngIf="isEditing" (click)="saveChanges()">Save</button>
+    <button *ngIf="isEditing" (click)="cancelEdit()">Cancel</button>
+    <button (click)="goBack()">Back</button>
+  </div>
 </div>

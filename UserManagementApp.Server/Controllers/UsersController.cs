@@ -31,8 +31,13 @@ namespace UserManagementApp.Server.Controllers
         [HttpPut]
         public IActionResult UpdateUser([FromBody] User user)
         {
+            if (user == null || user.Id <= 0)
+            {
+                return BadRequest("Invalid user data.");
+            }
+
             _userService.UpdateUser(user);
-            return NoContent();
+            return NoContent(); // Indicates success with no response body
         }
 
         [HttpDelete("{id}")]
