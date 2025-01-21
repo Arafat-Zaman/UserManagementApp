@@ -218,7 +218,6 @@ Update the `appsettings.json` file to configure the database connection and data
 3. Perform CRUD operations:
    - **View All Users:** Displays a paginated list of users.
    - **View Details:** Navigate to a user's details page.
-   - **Add User:** Add a new user to the selected data source.
    - **Update User:** Edit an existing user's details.
    - **Delete User:** Remove a user from the selected data source.
 
@@ -330,9 +329,86 @@ UserManagementFrontend/
 
 ---
 
-## **License**
-This project is licensed under the MIT License.
 
----
+## **Deployment**
+1. Deployment of UserManagementApp.Client
 
-Let me know if you need further customization or additions!
+1.1 Prerequisites
+Install Node.js (version 18.x or higher).
+Install Angular CLI globally
+
+npm install -g @angular/cli
+A production-ready web server (e.g., Nginx, Apache, or IIS) is required.
+
+
+1.2 Steps to Build and Deploy
+1.Navigate to the Client Directory:
+cd UserManagementApp/ClientApp
+
+2.Install Dependencies:
+npm install
+
+3.Build for Production:
+Run the following command to generate production-optimized static files:
+ng build --configuration=production
+This will create a dist/ directory containing the compiled static files.
+
+4.Deploy the Static Files:
+Copy the contents of the dist/ directory to your web server's root directory.
+For IIS, deploy to the appropriate site folder.
+
+5.Configure the Web Server:
+Ensure that the web server routes all requests to the index.html file to support Angular's client-side routing.
+
+
+
+
+2. Deployment of UserManagementApp.Server
+
+2.1 Prerequisites
+Install the .NET SDK (version 7 or 8).
+A production-ready application server, such as:
+Kestrel (default for .NET apps).
+IIS (Windows environments).
+A database server (e.g., SQL Server).
+
+2.2 Steps to Deploy
+Navigate to the Server Directory:
+cd UserManagementApp/Server
+
+3.Publish the Application:
+Run the following command to publish the application:
+dotnet publish -c Release -o ./publish
+This creates a publish/ directory with the compiled application files.
+
+4.Configure the Database:
+Ensure the production database is set up with the correct schema.
+Apply migrations
+
+5.Set Environment Variables:
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=your-server;Database=UserDB;User Id=your-user;Password=your-password;Encrypt=False;"
+  },
+  "DataSource": "SQL",
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}
+
+
+6.Deploy to Server:
+Copy the contents of the publish/ directory to your server.
+
+
+7.Run the Application:
+Using Kestrel:
+dotnet UserManagementApp.Server.dll
+
+Using IIS:
+Add the application to IIS Manager as a new site.
+Point it to the publish/ directory.
+
