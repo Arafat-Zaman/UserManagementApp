@@ -44,8 +44,21 @@ namespace UserManagementApp.Server
             });
 
             // Add DbContext
+            //builder.Services.AddDbContext<SQLContext>(options =>
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             builder.Services.AddDbContext<SQLContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            {
+                var environment = builder.Environment.EnvironmentName;
+                if (environment == "Testing")
+                {
+                    options.UseInMemoryDatabase("TestDb");
+                }
+                else
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                }
+            });
 
             // Register repository and service layers
             builder.Services.AddScoped<IUserRepository, UserRepository>();
